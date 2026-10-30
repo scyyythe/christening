@@ -1,0 +1,24 @@
+// All illustration imports in one place, so sections can share them.
+export { default as accentDrops } from "../assets/accent-drops.png";
+export { default as baby } from "../assets/baby-with-balloons.png";
+export { default as bearPlane } from "../assets/bear-in-airplane.png";
+export { default as bearBalloons } from "../assets/bear-with-balloons-and-clouds.png";
+export { default as bearReaching } from "../assets/bear-reaching.png";
+export { default as cloudOne } from "../assets/cloud-1.png";
+export { default as cloudTwo } from "../assets/cloud-2.png";
+export { default as starOne } from "../assets/star-1.png";
+export { default as starThree } from "../assets/star-3.png";
+export { default as starTwo } from "../assets/decor/star-2.png";
+export { default as starFour } from "../assets/decor/star-4.png";
+export { default as starSix } from "../assets/decor/star-6.png";
+export { default as starSeven } from "../assets/decor/star-7.png";
+export { default as goldStar } from "../assets/decor/gold-star.png";
+export { default as balloonsBlue } from "../assets/decor/balloons-blue-trio.png";
+export { default as balloonsTrio } from "../assets/decor/balloons-trio.png";
+export { default as hotAirBalloon } from "../assets/decor/cloud-with-hot-air-balloon.png";
+export { default as giftBoxes } from "../assets/decor/gift-boxes.png";
+export { default as heart } from "../assets/decor/heart.png";
+export { default as bearPatch } from "../assets/stickers/bear-patch.png";
+export { default as denimStars } from "../assets/stickers/denim-stars.png";
+export { default as navyStars } from "../assets/stickers/navy-stars.png";
+export { default as cameraDoodle } from "../assets/stickers/camera-doodle.png";
