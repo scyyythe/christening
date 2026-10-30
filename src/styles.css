@@ -251,6 +251,8 @@
   .polaroid-collage {
     max-width: 760px;
     grid-template-columns: repeat(2, 1fr);
+    /* Room for the binder clip so it doesn't cover the caption above. */
+    row-gap: 28px;
     padding-inline: 48px;
   }
 
