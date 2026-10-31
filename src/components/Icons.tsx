@@ -70,12 +70,6 @@ export const CloseIcon = (props: IconProps) => (
   </Icon>
 );
 
-export const MenuIcon = (props: IconProps) => (
-  <Icon {...props}>
-    <path d="M4 7h16M4 12h16M4 17h16" />
-  </Icon>
-);
-
 export const ChevronIcon = (props: IconProps) => (
   <Icon {...props}>
     <path d="M9 5l7 7-7 7" />

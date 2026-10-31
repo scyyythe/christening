@@ -7,10 +7,11 @@ export const event = {
   // Length of the event in the calendar file.
   durationHours: 3,
   church: {
-    name: "[Church Name]",
-    address: "[Address], [City]",
-    lat: 14.5995,
-    lng: 120.9842,
+    name: "Our Lady of the Holy Rosary Parish",
+    address: "Natalio B. Bacalso S National Hwy, Minglanilla, Cebu",
+    // Plus code 6QPG+V9C, Minglanilla.
+    lat: 10.23719,
+    lng: 123.77589,
   },
   reception: {
     name: "[Reception Venue]",
@@ -20,9 +21,9 @@ export const event = {
   },
   ninongs: ["[Ninong's name]", "[Ninong's name]"],
   ninangs: ["[Ninang's name]", "[Ninang's name]"],
-  // Form endpoint (Google Apps Script, Formspree, ...) the RSVP form POSTs to.
-  rsvpUrl: "",
-  // Fallback when rsvpUrl is empty: a Messenger (m.me/...) or sms: link.
+  // RSVPs are emailed here through FormSubmit (formsubmit.co).
+  rsvpEmail: "angeliquealfante@gmail.com",
+  // Fallback when rsvpEmail is empty: a Messenger (m.me/...) or sms: link.
   rsvpMessenger: "",
   // Optional background music file, e.g. "/music.mp3" in the public folder.
   musicSrc: "",

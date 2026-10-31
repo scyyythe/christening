@@ -57,7 +57,7 @@ export function Section({
       aria-label={label}
       className={cn(
         // overflow-x-clip trims side decorations without clipping the waves.
-        "relative flex min-h-[100svh] scroll-mt-16 items-center overflow-x-clip py-20 md:min-h-0 lg:py-28",
+        "relative flex min-h-[100svh] lg:scroll-mt-16 items-center overflow-x-clip py-20 md:min-h-0 lg:py-28",
         className,
       )}
     >

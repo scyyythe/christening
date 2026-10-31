@@ -6,23 +6,37 @@ import { Sheet } from "./Sheet";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-async function submitRsvp(data: FormData) {
-  try {
-    const res = await fetch(event.rsvpUrl, {
-      method: "POST",
-      body: data,
-      headers: { Accept: "application/json" },
-    });
-    if (!res.ok) throw new Error(`RSVP failed (${res.status})`);
-  } catch (err) {
-    // Google Apps Script answers with a redirect browsers block under CORS.
-    // A no-cors POST still delivers the form; we just can't read the reply.
-    if (err instanceof TypeError) {
-      await fetch(event.rsvpUrl, { method: "POST", body: data, mode: "no-cors" });
-      return;
-    }
-    throw err;
-  }
+type Rsvp = {
+  name: string;
+  attending: "yes" | "no";
+  guests: number;
+  message: string;
+};
+
+// FormSubmit emails these fields as a table, using each key as the row label.
+async function submitRsvp({ name, attending, guests, message }: Rsvp) {
+  const going = attending === "yes";
+  const res = await fetch(`https://formsubmit.co/ajax/${event.rsvpEmail}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      _subject: going
+        ? `RSVP: ${name} is coming (${guests} ${guests === 1 ? "guest" : "guests"})`
+        : `RSVP: ${name} can't make it`,
+      _template: "table",
+      _captcha: "false",
+      Name: name,
+      Attending: going ? "Joyfully yes" : "Sadly no",
+      "Number of guests": going ? String(guests) : "0",
+      Message: message || "(none)",
+      "Sent on": new Date().toLocaleString("en-PH", {
+        dateStyle: "full",
+        timeStyle: "short",
+      }),
+    }),
+  });
+  const reply = (await res.json().catch(() => null)) as { success?: string } | null;
+  if (!res.ok || reply?.success !== "true") throw new Error("RSVP failed");
 }
 
 const fieldClass =
@@ -35,16 +49,19 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!event.rsvpUrl) {
+    if (!event.rsvpEmail) {
       setStatus("error");
       return;
     }
     const data = new FormData(e.currentTarget);
-    data.set("attending", attending);
-    data.set("submittedAt", new Date().toISOString());
     setStatus("sending");
     try {
-      await submitRsvp(data);
+      await submitRsvp({
+        name: String(data.get("name") ?? "").trim(),
+        attending,
+        guests: Number(data.get("guests") ?? 0),
+        message: String(data.get("message") ?? "").trim(),
+      });
       setStatus("sent");
     } catch {
       setStatus("error");
@@ -129,7 +146,7 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
 
           {status === "error" && (
             <p role="alert" className="rounded-2xl bg-white/70 px-4 py-3 text-xs text-ink">
-              {event.rsvpUrl
+              {event.rsvpEmail
                 ? "We couldn't send your RSVP just now. Please try again in a moment."
                 : "Online RSVP isn't set up yet. Please message Toby's family directly."}
             </p>

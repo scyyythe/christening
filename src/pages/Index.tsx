@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useState } from "react";
-import { AnimatePresence, useReducedMotion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { Intro } from "../components/Intro";
 import type { Destination } from "../components/MapGuide";
 import { MusicButton } from "../components/MusicButton";
 import { Nav } from "../components/Nav";
@@ -20,44 +21,45 @@ const MapGuide = lazy(() =>
 );
 
 function Index() {
-  const reduceMotion = useReducedMotion();
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const [mapTab, setMapTab] = useState<Destination | null>(null);
-  // Bumping this remounts the sections so their entrance animations replay.
-  const [replayKey, setReplayKey] = useState(0);
+  // The site stays hidden behind the envelope until it's opened. Replaying
+  // brings the envelope back, and remounting the sections replays their
+  // entrance animations.
+  const [invited, setInvited] = useState(false);
 
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
   const closeRsvp = useCallback(() => setRsvpOpen(false), []);
   const closeMap = useCallback(() => setMapTab(null), []);
 
   const openRsvp = () => {
-    if (!event.rsvpUrl && event.rsvpMessenger) {
+    if (!event.rsvpEmail && event.rsvpMessenger) {
       window.open(event.rsvpMessenger, "_blank", "noopener,noreferrer");
       return;
     }
     setRsvpOpen(true);
   };
 
-  const replay = () => {
-    setReplayKey((k) => k + 1);
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-  };
+  const openInvitation = useCallback(() => setInvited(true), []);
+  const replay = () => setInvited(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#EAF4FC] via-[#D6E9F8] to-[#BFDDF3] font-sans text-navy">
       <Nav />
       <MusicButton />
 
-      <main key={replayKey}>
-        <Hero />
-        <NameSection />
-        <BearlyWait />
-        <Details onOpenMap={setMapTab} />
-        <Godparents />
-        <Pictures onOpen={() => setGalleryOpen(true)} />
-        <SeeYouThere onRsvp={openRsvp} onOpenMap={setMapTab} onReplay={replay} />
-      </main>
+      {invited && (
+        <main>
+          <Hero />
+          <NameSection />
+          <BearlyWait />
+          <Details onOpenMap={setMapTab} />
+          <Godparents />
+          <Pictures onOpen={() => setGalleryOpen(true)} />
+          <SeeYouThere onRsvp={openRsvp} onOpenMap={setMapTab} onReplay={replay} />
+        </main>
+      )}
 
       <footer className="pb-10 pt-4 text-center text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
         Made with love for Thobias Noah
@@ -65,6 +67,7 @@ function Index() {
 
       <Suspense fallback={null}>
         <AnimatePresence>
+          {!invited && <Intro key="intro" onOpen={openInvitation} />}
           {galleryOpen && <PhotoGallery key="gallery" onClose={closeGallery} />}
           {rsvpOpen && <RsvpModal key="rsvp" onClose={closeRsvp} />}
           {mapTab && <MapGuide key="map" initialTab={mapTab} onClose={closeMap} />}
