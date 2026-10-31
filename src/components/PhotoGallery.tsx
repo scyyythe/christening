@@ -6,7 +6,8 @@ import {
   type PanInfo,
 } from "framer-motion";
 import { cn } from "../lib/utils";
-import { gallery } from "../data/gallery";
+import { gallery, type GalleryPhoto } from "../data/gallery";
+import { Doodles } from "./Doodles";
 import bearPatch from "../assets/stickers/bear-patch.png";
 import binderClip from "../assets/stickers/binder-clip.png";
 import cameraDoodle from "../assets/stickers/camera-doodle.png";
@@ -36,6 +37,53 @@ const rotations = [-3, 2.5, -1.5, 3, -2.5, 1.5];
 // A swipe counts once the drag passes this distance or flicks fast enough.
 const SWIPE_DISTANCE = 60;
 const SWIPE_VELOCITY = 400;
+
+function Photo({ photo, alt, lazy }: { photo: GalleryPhoto; alt: string; lazy?: boolean }) {
+  return (
+    <img
+      src={photo.src}
+      alt={alt}
+      width={photo.width}
+      height={photo.height}
+      style={photo.position ? { objectPosition: photo.position } : undefined}
+      loading={lazy ? "lazy" : undefined}
+      decoding="async"
+      draggable={false}
+    />
+  );
+}
+
+// Phones get the share sheet ("Save Image" puts it in the camera roll);
+// everything else downloads the file.
+async function savePhoto(photo: GalleryPhoto, index: number) {
+  const fileName = `toby-${String(index + 1).padStart(2, "0")}.webp`;
+  try {
+    const blob = await (await fetch(photo.src)).blob();
+    const file = new File([blob], fileName, { type: blob.type || "image/webp" });
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouch && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file] });
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") return;
+    window.open(photo.src, "_blank", "noopener");
+  }
+}
+
+function SaveIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14" />
+    </svg>
+  );
+}
 
 function CloseIcon() {
   return (
@@ -149,12 +197,12 @@ export function PhotoGallery({ onClose }: PhotoGalleryProps) {
                 }
               >
                 <span className="polaroid-photo">
-                  <img
-                    src={photo.src}
+                  <Photo
+                    photo={photo}
                     alt={photo.caption ?? `Photo of Toby ${index + 1}`}
-                    loading="lazy"
-                    decoding="async"
+                    lazy
                   />
+                  <Doodles index={index} />
                 </span>
                 <span className="polaroid-caption">{photo.caption}</span>
                 {stickers.map((sticker) => (
@@ -194,6 +242,14 @@ export function PhotoGallery({ onClose }: PhotoGalleryProps) {
             >
               <CloseIcon />
             </button>
+            <button
+              type="button"
+              className="lightbox-save"
+              onClick={() => savePhoto(gallery[active], active)}
+              aria-label="Save photo"
+            >
+              <SaveIcon />
+            </button>
 
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.figure
@@ -216,10 +272,9 @@ export function PhotoGallery({ onClose }: PhotoGalleryProps) {
                 dragElastic={0.6}
                 onDragEnd={handleDragEnd}
               >
-                <img
-                  src={gallery[active].src}
+                <Photo
+                  photo={gallery[active]}
                   alt={gallery[active].caption ?? `Photo of Toby ${active + 1}`}
-                  draggable={false}
                 />
                 {gallery[active].caption && (
                   <figcaption>{gallery[active].caption}</figcaption>

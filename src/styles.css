@@ -142,6 +142,7 @@
 
 .gallery-close,
 .lightbox-close,
+.lightbox-save,
 .lightbox-nav {
   position: absolute;
   z-index: 30;
@@ -165,6 +166,7 @@
 
 .gallery-close svg,
 .lightbox-close svg,
+.lightbox-save svg,
 .lightbox-nav svg {
   width: 20px;
   height: 20px;
@@ -177,6 +179,7 @@
 
 .gallery-close:focus-visible,
 .lightbox-close:focus-visible,
+.lightbox-save:focus-visible,
 .lightbox-nav:focus-visible,
 .polaroid:focus-visible {
   outline: 3px solid #3e7cc4;
@@ -299,6 +302,62 @@
   object-fit: cover;
 }
 
+/* Hand-drawn scribbles over each polaroid photo (Doodles). */
+.polaroid-photo:has(.doodles) {
+  position: relative;
+}
+
+.doodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.doodles svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* In viewBox units: about 2.5px on a phone-sized polaroid. */
+  stroke-width: 0.9;
+  filter: drop-shadow(0 1px 1.5px rgb(15 37 87 / 45%));
+}
+
+.doodle-note {
+  position: absolute;
+  padding: 2px 10px 4px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 88%);
+  box-shadow: 0 3px 8px rgb(15 37 87 / 18%);
+  color: #3e7cc4;
+  font-family: "Amatic SC", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.doodle-note-bottom-left {
+  bottom: 12%;
+  left: 9%;
+  transform: rotate(-6deg);
+}
+
+.doodle-note-top-left {
+  top: 11%;
+  left: 12%;
+  transform: rotate(-4deg);
+}
+
+.doodle-note-bottom-right {
+  right: 9%;
+  bottom: 12%;
+  transform: rotate(5deg);
+}
+
 .polaroid-caption {
   display: flex;
   min-height: 58px;
@@ -373,6 +432,11 @@
   right: 14px;
 }
 
+.lightbox-save {
+  top: 14px;
+  left: 14px;
+}
+
 .lightbox-frame {
   width: min(90vw, 520px);
   margin: 0;
@@ -391,6 +455,7 @@
 .lightbox-frame img {
   display: block;
   width: 100%;
+  height: auto;
   max-height: 70svh;
   object-fit: contain;
   background: #e9e6df;
