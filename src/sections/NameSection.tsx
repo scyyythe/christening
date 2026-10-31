@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { Drop } from "../components/Drop";
 import { Float } from "../components/Float";
 import { Reveal } from "../components/Reveal";
 import { Section } from "../components/Section";
@@ -31,8 +32,11 @@ export function NameSection() {
 
   return (
     <Section id="name" label="Thobias Noah U. Cafe" tint="light" decorations={<Decorations />}>
-      <div className="grid items-center gap-8 md:grid-cols-[0.9fr_1.1fr] md:gap-12">
-        <Reveal className="relative mx-auto w-[min(52%,200px)] md:w-[min(100%,300px)] lg:w-[min(100%,340px)]">
+      <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+        <Drop
+          shadow
+          className="relative mx-auto w-[min(58%,220px)] md:w-[min(100%,300px)] lg:w-[min(100%,340px)]"
+        >
           <motion.img
             src={baby}
             alt="Baby wearing a blue outfit and a little hat, floating with balloons"
@@ -46,7 +50,7 @@ export function NameSection() {
             aria-hidden="true"
             className="pointer-events-none absolute -right-6 top-1/4 w-8 rotate-[28deg] md:w-10"
           />
-        </Reveal>
+        </Drop>
 
         <div className="text-center md:text-left">
           <Reveal>
@@ -55,13 +59,13 @@ export function NameSection() {
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <h2 className="mt-2 font-script text-[clamp(3rem,8vw,7rem)] leading-[0.95] text-navy">
+            <h2 className="mt-4 font-script text-[clamp(3rem,8vw,7rem)] leading-[1.05] text-navy">
               Thobias Noah
               <span className="block">U. Cafe</span>
             </h2>
           </Reveal>
           <Reveal delay={0.45}>
-            <p className="mt-5 inline-block border-b-2 border-sun/70 pb-1 font-display text-[clamp(2.2rem,4.5vw,3.8rem)] font-bold uppercase leading-none tracking-[0.18em] text-navy">
+            <p className="mt-8 inline-block border-b-2 border-sun/70 pb-1 font-display text-[clamp(2.2rem,4.5vw,3.8rem)] font-bold uppercase leading-none tracking-[0.18em] text-navy">
               His christening
             </p>
           </Reveal>

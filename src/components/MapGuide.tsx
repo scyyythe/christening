@@ -16,7 +16,6 @@ import {
   getDrivingRoute,
   googleMapsUrl,
   searchPlaces,
-  wazeUrl,
   type Place,
   type Route,
 } from "../lib/geo";
@@ -178,7 +177,7 @@ export function MapGuide({ initialTab, onClose }: MapGuideProps) {
       .catch((err) => {
         if (err.name === "AbortError") return;
         setMessage(
-          "We couldn't get driving directions right now. Google Maps or Waze below can still guide you.",
+          "We couldn't get driving directions right now. Google Maps below can still guide you.",
         );
       })
       .finally(() => {
@@ -396,24 +395,14 @@ export function MapGuide({ initialTab, onClose }: MapGuideProps) {
             <p className="mt-1 text-sm text-mist">{venue.address}</p>
           </div>
         )}
-        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-          <a
-            href={googleMapsUrl(venueLatLng, origin)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary flex-1"
-          >
-            Open in Google Maps
-          </a>
-          <a
-            href={wazeUrl(venueLatLng)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary flex-1"
-          >
-            Open in Waze
-          </a>
-        </div>
+        <a
+          href={googleMapsUrl(venueLatLng, origin)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary mt-4 w-full"
+        >
+          Open in Google Maps
+        </a>
       </div>
     </Sheet>
   );

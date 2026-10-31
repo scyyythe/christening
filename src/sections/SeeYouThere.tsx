@@ -1,7 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Balloons } from "../components/Balloons";
+import { Drop } from "../components/Drop";
 import { Float } from "../components/Float";
 import { CalendarIcon, ChurchIcon, HeartIcon, HouseIcon, ReplayIcon } from "../components/Icons";
+import { BearEars, PeekingBear } from "../components/Bear";
 import type { Destination } from "../components/MapGuide";
 import { Reveal } from "../components/Reveal";
 import { Section } from "../components/Section";
@@ -11,7 +13,9 @@ import { bearReaching, cloudOne, cloudTwo, goldStar, starOne, starThree } from "
 const eventStart = getEventStart();
 
 type SeeYouThereProps = {
+  // "Yes" opens the RSVP form; "Sorry, I can't" shows a kind note instead.
   onRsvp: () => void;
+  onDecline: () => void;
   onOpenMap: (destination: Destination) => void;
   onReplay: () => void;
 };
@@ -49,13 +53,13 @@ function BearWithBalloons() {
   );
 }
 
-export function SeeYouThere({ onRsvp, onOpenMap, onReplay }: SeeYouThereProps) {
+export function SeeYouThere({ onRsvp, onDecline, onOpenMap, onReplay }: SeeYouThereProps) {
   return (
     <Section id="see-you-there" label="See you there" tint="deep" decorations={<Decorations />}>
       <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-12">
-        <Reveal>
+        <Drop className="relative">
           <BearWithBalloons />
-        </Reveal>
+        </Drop>
 
         <div className="text-center md:text-left">
           <Reveal>
@@ -69,30 +73,55 @@ export function SeeYouThere({ onRsvp, onOpenMap, onReplay }: SeeYouThereProps) {
             </p>
           </Reveal>
 
-          <Reveal delay={0.35} className="glass mt-8 p-5 sm:p-6">
-            <button type="button" className="btn-primary w-full" onClick={onRsvp}>
-              <HeartIcon className="h-4 w-4" />
-              RSVP with the family
-            </button>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {eventStart && (
-                <button
-                  type="button"
-                  className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap"
-                  onClick={() => downloadCalendarFile(eventStart)}
-                >
-                  <CalendarIcon className="h-4 w-4 text-sky" />
-                  Add to calendar
+          <Reveal delay={0.35} className="relative mt-20">
+            {/* The bear asks the question, peeking over the card. */}
+            <BearEars />
+            {/* Positioned by this wrapper: the bear's bob animation owns its transform. */}
+            <span className="absolute left-1/2 top-0 z-10 block w-28 -translate-x-1/2 -translate-y-[86%] sm:w-32">
+              <PeekingBear className="w-full" />
+            </span>
+            <div className="glass p-5 pt-7 text-center sm:p-6 sm:pt-8">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
+                RSVP &middot; Kindly let us know
+              </p>
+              <h3 className="mt-1 font-script text-[clamp(2.1rem,6vw,2.8rem)] leading-tight text-navy">
+                Will you be there for Toby?
+              </h3>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <button type="button" className="btn-primary" onClick={onRsvp}>
+                  <HeartIcon className="h-4 w-4" />
+                  Yes, I&apos;ll be there!
                 </button>
-              )}
-              <button type="button" className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap" onClick={() => onOpenMap("church")}>
-                <ChurchIcon className="h-4 w-4 text-sky" />
-                Church map
-              </button>
-              <button type="button" className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap" onClick={() => onOpenMap("reception")}>
-                <HouseIcon className="h-4 w-4 text-sky" />
-                Reception map
-              </button>
+                <button type="button" className="btn-secondary" onClick={onDecline}>
+                  Sorry, I can&apos;t
+                </button>
+              </div>
+              <p className="mt-3 text-xs text-mist">
+                Say yes and the bear will save you a seat.
+              </p>
+
+              <div aria-hidden="true" className="my-5 border-t-2 border-dotted border-sky/25" />
+
+              <div className="flex flex-wrap gap-2">
+                {eventStart && (
+                  <button
+                    type="button"
+                    className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap"
+                    onClick={() => downloadCalendarFile(eventStart)}
+                  >
+                    <CalendarIcon className="h-4 w-4 text-sky" />
+                    Add to calendar
+                  </button>
+                )}
+                <button type="button" className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap" onClick={() => onOpenMap("church")}>
+                  <ChurchIcon className="h-4 w-4 text-sky" />
+                  Church map
+                </button>
+                <button type="button" className="btn-secondary min-w-[10rem] flex-1 whitespace-nowrap" onClick={() => onOpenMap("reception")}>
+                  <HouseIcon className="h-4 w-4 text-sky" />
+                  Reception map
+                </button>
+              </div>
             </div>
           </Reveal>
 

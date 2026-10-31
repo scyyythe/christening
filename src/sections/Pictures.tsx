@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { Paw, PeekingBear } from "../components/Bear";
 import { Float } from "../components/Float";
 import { Reveal } from "../components/Reveal";
 import { Section } from "../components/Section";
@@ -9,6 +10,7 @@ import {
   cloudOne,
   cloudTwo,
   denimStars,
+  heart,
   navyStars,
   starSix,
 } from "../lib/art";
@@ -38,26 +40,42 @@ export function Pictures({ onOpen }: { onOpen: () => void }) {
         onClick={onOpen}
         aria-label="Open Toby's Pictures"
       >
-        <Reveal as="span" className="teaser-stack">
+        <Reveal as="span" className="teaser-stack mt-16">
           <span className="teaser-polaroid teaser-polaroid-back" />
           <span className="teaser-polaroid teaser-polaroid-middle" />
           <span className="teaser-polaroid teaser-polaroid-top">
             <span className="teaser-photo">
               {gallery[0] && <img src={gallery[0].src} alt="" loading="lazy" />}
             </span>
+            <span className="absolute inset-x-0 bottom-[5%] font-script text-[clamp(1.4rem,3vw,1.8rem)] leading-none text-navy">
+              little Toby &hearts;
+            </span>
+            <img
+              src={heart}
+              alt=""
+              className="absolute -bottom-3 -right-3 w-10 rotate-12 drop-shadow-sm"
+            />
+          </span>
+          {/* A bear peeking over the photos, paws holding the top one. */}
+          <span className="absolute left-1/2 top-0 z-10 block w-[58%] -translate-x-1/2 -translate-y-[86%]">
+            <PeekingBear className="w-full" />
           </span>
         </Reveal>
         <Reveal as="span" delay={0.2}>
           <span className="block font-script text-[clamp(3rem,7vw,5.5rem)] leading-tight text-navy">
             Toby&apos;s Pictures
           </span>
+          <span className="mt-1 block text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
+            bear-y sweet moments
+          </span>
         </Reveal>
         <Reveal as="span" delay={0.4}>
           <motion.span
-            className="btn-primary pointer-events-none mt-3"
+            className="btn-primary pointer-events-none mt-5"
             animate={reduceMotion ? undefined : { scale: [1, 1.06, 1] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           >
+            <Paw className="h-4 w-4 fill-white" />
             Tap to view
           </motion.span>
         </Reveal>

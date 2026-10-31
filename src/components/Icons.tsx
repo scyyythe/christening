@@ -51,6 +51,13 @@ export const PinIcon = (props: IconProps) => (
   </Icon>
 );
 
+export const ClockIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </Icon>
+);
+
 export const HeartIcon = (props: IconProps) => (
   <Icon {...props}>
     <path d="M12 20s-7.5-4.6-9.3-9.2C1.6 7.6 3.6 4.5 7 4.5c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 3.4 0 5.4 3.1 4.3 6.3C19.5 15.4 12 20 12 20Z" />

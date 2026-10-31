@@ -85,8 +85,3 @@ export function googleMapsUrl(to: LatLng, from?: LatLng | null) {
   if (from) params.set("origin", `${from.lat},${from.lng}`);
   return `https://www.google.com/maps/dir/?${params}`;
 }
-
-// Waze always routes from the phone's current position; it has no origin param.
-export function wazeUrl(to: LatLng) {
-  return `https://waze.com/ul?ll=${to.lat},${to.lng}&navigate=yes`;
-}

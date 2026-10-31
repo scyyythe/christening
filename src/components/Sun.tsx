@@ -27,7 +27,9 @@ export function Sun({ className, delay = 0 }: SunProps) {
       }
     >
       <motion.g
-        style={{ originX: "50px", originY: "50px" }}
+        // Framer measures SVG origins from the group's own box, which the
+        // symmetric rays centre on the sun, so 50% is its middle.
+        style={{ originX: 0.5, originY: 0.5 }}
         animate={reduceMotion ? undefined : { rotate: 360 }}
         transition={
           reduceMotion

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { DeclineNote } from "../components/DeclineNote";
 import { Intro } from "../components/Intro";
 import type { Destination } from "../components/MapGuide";
 import { MusicButton } from "../components/MusicButton";
@@ -23,6 +24,7 @@ const MapGuide = lazy(() =>
 function Index() {
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [rsvpOpen, setRsvpOpen] = useState(false);
+  const [declineOpen, setDeclineOpen] = useState(false);
   const [mapTab, setMapTab] = useState<Destination | null>(null);
   // The site stays hidden behind the envelope until it's opened. Replaying
   // brings the envelope back, and remounting the sections replays their
@@ -31,6 +33,7 @@ function Index() {
 
   const closeGallery = useCallback(() => setGalleryOpen(false), []);
   const closeRsvp = useCallback(() => setRsvpOpen(false), []);
+  const closeDecline = useCallback(() => setDeclineOpen(false), []);
   const closeMap = useCallback(() => setMapTab(null), []);
 
   const openRsvp = () => {
@@ -57,7 +60,12 @@ function Index() {
           <Details onOpenMap={setMapTab} />
           <Godparents />
           <Pictures onOpen={() => setGalleryOpen(true)} />
-          <SeeYouThere onRsvp={openRsvp} onOpenMap={setMapTab} onReplay={replay} />
+          <SeeYouThere
+            onRsvp={openRsvp}
+            onDecline={() => setDeclineOpen(true)}
+            onOpenMap={setMapTab}
+            onReplay={replay}
+          />
         </main>
       )}
 
@@ -70,6 +78,7 @@ function Index() {
           {!invited && <Intro key="intro" onOpen={openInvitation} />}
           {galleryOpen && <PhotoGallery key="gallery" onClose={closeGallery} />}
           {rsvpOpen && <RsvpModal key="rsvp" onClose={closeRsvp} />}
+          {declineOpen && <DeclineNote key="decline" onClose={closeDecline} />}
           {mapTab && <MapGuide key="map" initialTab={mapTab} onClose={closeMap} />}
         </AnimatePresence>
       </Suspense>
