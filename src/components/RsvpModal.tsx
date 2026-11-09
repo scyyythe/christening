@@ -10,13 +10,15 @@ type Rsvp = {
   name: string;
   attending: "yes" | "no";
   guests: number;
+  // One name per guest, for the seat list at the catering venue.
+  guestNames: string[];
   // Whether they stay for the catered reception; catering needs a seat count.
   reception: boolean;
   message: string;
 };
 
 // FormSubmit emails these fields as a table, using each key as the row label.
-async function submitRsvp({ name, attending, guests, reception, message }: Rsvp) {
+async function submitRsvp({ name, attending, guests, guestNames, reception, message }: Rsvp) {
   const going = attending === "yes";
   const seats = going && reception ? guests : 0;
   const res = await fetch(`https://formsubmit.co/ajax/${event.rsvpEmail}`, {
@@ -31,6 +33,7 @@ async function submitRsvp({ name, attending, guests, reception, message }: Rsvp)
       Name: name,
       Attending: going ? "Joyfully yes" : "Sadly no",
       "Number of guests": going ? String(guests) : "0",
+      "Guest names": going ? guestNames.map((n, i) => `${i + 1}. ${n}`).join(", ") : "(none)",
       "Catered reception": going ? (reception ? "Yes, staying" : "No, church only") : "No",
       "Catering seats": String(seats),
       Message: message || "(none)",
@@ -51,6 +54,7 @@ const labelClass = "text-[0.65rem] font-semibold uppercase tracking-widest text-
 export function RsvpModal({ onClose }: { onClose: () => void }) {
   const [attending, setAttending] = useState<"yes" | "no">("yes");
   const [status, setStatus] = useState<Status>("idle");
+  const [guests, setGuests] = useState(1);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +68,8 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
       await submitRsvp({
         name: String(data.get("name") ?? "").trim(),
         attending,
-        guests: Number(data.get("guests") ?? 0),
+        guests,
+        guestNames: data.getAll("guestName").map((n) => String(n).trim()),
         reception: data.get("reception") === "yes",
         message: String(data.get("message") ?? "").trim(),
       });
@@ -136,11 +141,34 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
                 type="number"
                 min={1}
                 max={10}
-                defaultValue={1}
+                value={guests}
+                onChange={(e) => setGuests(Math.min(10, Math.max(1, Number(e.target.value) || 1)))}
                 required
                 className={fieldClass}
               />
             </div>
+          )}
+
+          {attending === "yes" && (
+            <fieldset>
+              <legend className={labelClass}>Names of guests</legend>
+              <p className="mt-1 text-xs text-mist">
+                Including yourself. We&apos;ll give these names to {event.reception.name} for the
+                seat reservation.
+              </p>
+              <div>
+                {Array.from({ length: guests }, (_, i) => (
+                  <input
+                    key={i}
+                    name="guestName"
+                    required
+                    aria-label={`Guest ${i + 1} name`}
+                    placeholder={`Guest ${i + 1}`}
+                    className={fieldClass}
+                  />
+                ))}
+              </div>
+            </fieldset>
           )}
 
           {attending === "yes" && (

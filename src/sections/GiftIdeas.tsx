@@ -33,13 +33,13 @@ function Decorations() {
 const gifts = [
   {
     title: "Baby wipes",
-    detail: "EQ Water Wipes or Moose Gear Wipes",
+    detail: "Kleenfant or any unscented wipes",
     image: giftWipes,
     alt: "A pack of baby wipes",
   },
   {
     title: "Diapers",
-    detail: "Bean or Uni-Love Diapers",
+    detail: "Penbose Medium or EQ Medium",
     image: giftDiapers,
     alt: "Stacks of baby diapers and a basket with a blue bow",
   },
