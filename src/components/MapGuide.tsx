@@ -396,7 +396,7 @@ export function MapGuide({ initialTab, onClose }: MapGuideProps) {
           </div>
         )}
         <a
-          href={googleMapsUrl(venueLatLng, origin)}
+          href={googleMapsUrl(venue.mapsQuery || venueLatLng, origin)}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary mt-4 w-full"

@@ -76,10 +76,12 @@ export function formatDuration(minutes: number) {
   return `${hours} hr${hours === 1 ? "" : "s"}${mins ? ` ${mins} mins` : ""}`;
 }
 
-export function googleMapsUrl(to: LatLng, from?: LatLng | null) {
+// `to` can be a search text (name and address) when the exact coordinates
+// aren't known; Google finds the place itself.
+export function googleMapsUrl(to: LatLng | string, from?: LatLng | null) {
   const params = new URLSearchParams({
     api: "1",
-    destination: `${to.lat},${to.lng}`,
+    destination: typeof to === "string" ? to : `${to.lat},${to.lng}`,
     travelmode: "driving",
   });
   if (from) params.set("origin", `${from.lat},${from.lng}`);

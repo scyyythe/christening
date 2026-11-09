@@ -31,7 +31,7 @@ export function NameSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section id="name" label="Thobias Noah U. Cafe" tint="light" decorations={<Decorations />}>
+    <Section id="name" label="Tobias Noah U. Cafe" tint="light" decorations={<Decorations />}>
       <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <Drop
           shadow
@@ -60,7 +60,7 @@ export function NameSection() {
           </Reveal>
           <Reveal delay={0.2}>
             <h2 className="mt-4 font-script text-[clamp(3rem,8vw,7rem)] leading-[1.05] text-navy">
-              Thobias Noah
+              Tobias Noah
               <span className="block">U. Cafe</span>
             </h2>
           </Reveal>

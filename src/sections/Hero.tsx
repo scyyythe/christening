@@ -74,7 +74,7 @@ export function Hero() {
           />
           <Reveal delay={0.15}>
             <p className="text-xs font-semibold uppercase tracking-widest text-mist">
-              The christening of Thobias Noah
+              The christening of Tobias Noah
             </p>
           </Reveal>
           <Reveal delay={0.35}>

@@ -119,7 +119,7 @@ export function Intro({ onOpen }: IntroProps) {
               The christening of
             </span>
             <span className="relative mt-1 font-script text-[clamp(1.5rem,6.5vw,2.2rem)] leading-[1.05] text-navy">
-              Thobias Noah
+              Tobias Noah
               <span className="block">U. Cafe</span>
             </span>
             <span aria-hidden="true" className="relative mt-2 flex items-center gap-2 text-sky">

@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 const links = [
   { href: "#home", label: "Home" },
   { href: "#details", label: "Details" },
-  { href: "#godparents", label: "Ninongs & Ninangs" },
+  { href: "#gifts", label: "Gift Ideas" },
   { href: "#photos", label: "Photos" },
 ];
 
@@ -36,7 +36,7 @@ export function Nav() {
         className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8"
       >
         <a href="#home" className="font-script text-3xl leading-none text-navy">
-          Thobias Noah
+          Tobias Noah
         </a>
 
         <ul className="flex items-center gap-1">

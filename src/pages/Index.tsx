@@ -10,10 +10,11 @@ import { RsvpModal } from "../components/RsvpModal";
 import { event } from "../data/event";
 import { BearlyWait } from "../sections/BearlyWait";
 import { Details } from "../sections/Details";
-import { Godparents } from "../sections/Godparents";
+import { GiftIdeas } from "../sections/GiftIdeas";
 import { Hero } from "../sections/Hero";
 import { NameSection } from "../sections/NameSection";
 import { Pictures } from "../sections/Pictures";
+import { Rsvp } from "../sections/Rsvp";
 import { SeeYouThere } from "../sections/SeeYouThere";
 
 // Leaflet is heavy; only fetch the map guide when someone opens it.
@@ -56,13 +57,12 @@ function Index() {
         <main>
           <Hero />
           <NameSection />
+          <Rsvp onRsvp={openRsvp} onDecline={() => setDeclineOpen(true)} />
           <BearlyWait />
           <Details onOpenMap={setMapTab} />
-          <Godparents />
+          <GiftIdeas />
           <Pictures onOpen={() => setGalleryOpen(true)} />
           <SeeYouThere
-            onRsvp={openRsvp}
-            onDecline={() => setDeclineOpen(true)}
             onOpenMap={setMapTab}
             onReplay={replay}
           />
@@ -70,7 +70,7 @@ function Index() {
       )}
 
       <footer className="pb-10 pt-4 text-center text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
-        Made with love for Thobias Noah
+        Made with love for Tobias Noah
       </footer>
 
       <Suspense fallback={null}>

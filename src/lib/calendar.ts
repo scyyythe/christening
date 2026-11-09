@@ -23,7 +23,7 @@ type LocalTime = {
   minutes: number;
 };
 
-// Reads "DECEMBER 12" + "10:00 AM" from the event data. Returns null when
+// Reads "NOVEMBER 22" + "10:00 AM" from the event data. Returns null when
 // they can't be parsed, so calendar buttons can hide themselves.
 export function getEventStart(): LocalTime | null {
   const [monthName, dayText] = event.date.trim().toUpperCase().split(/\s+/);
@@ -69,7 +69,7 @@ export function downloadCalendarFile(start: LocalTime) {
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Thobias Noah Christening//EN",
+    "PRODID:-//Tobias Noah Christening//EN",
     // Manila has no daylight saving, so one fixed +08:00 rule covers it.
     "BEGIN:VTIMEZONE",
     "TZID:Asia/Manila",
@@ -81,12 +81,12 @@ export function downloadCalendarFile(start: LocalTime) {
     "END:STANDARD",
     "END:VTIMEZONE",
     "BEGIN:VEVENT",
-    `UID:thobias-noah-christening-${formatLocal(start)}@invite`,
+    `UID:tobias-noah-christening-${formatLocal(start)}@invite`,
     // DTSTAMP must be UTC.
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`,
     `DTSTART;TZID=Asia/Manila:${formatLocal(start)}`,
     `DTEND;TZID=Asia/Manila:${formatLocal(end)}`,
-    "SUMMARY:Thobias Noah's Christening",
+    "SUMMARY:Tobias Noah's Christening",
     `LOCATION:${escapeIcs(`${event.church.name}, ${event.church.address}`)}`,
     `DESCRIPTION:${escapeIcs(
       `Reception to follow at ${event.reception.name}, ${event.reception.address}`,
@@ -98,7 +98,7 @@ export function downloadCalendarFile(start: LocalTime) {
   const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = "thobias-noah-christening.ics";
+  link.download = "tobias-noah-christening.ics";
   link.click();
   // Give the browser a moment to start the download before freeing the URL.
   setTimeout(() => URL.revokeObjectURL(url), 1000);

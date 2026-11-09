@@ -10,24 +10,29 @@ type Rsvp = {
   name: string;
   attending: "yes" | "no";
   guests: number;
+  // Whether they stay for the catered reception; catering needs a seat count.
+  reception: boolean;
   message: string;
 };
 
 // FormSubmit emails these fields as a table, using each key as the row label.
-async function submitRsvp({ name, attending, guests, message }: Rsvp) {
+async function submitRsvp({ name, attending, guests, reception, message }: Rsvp) {
   const going = attending === "yes";
+  const seats = going && reception ? guests : 0;
   const res = await fetch(`https://formsubmit.co/ajax/${event.rsvpEmail}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
       _subject: going
-        ? `RSVP: ${name} is coming (${guests} ${guests === 1 ? "guest" : "guests"})`
+        ? `RSVP: ${name} is coming (${guests} ${guests === 1 ? "guest" : "guests"}, ${seats} catering ${seats === 1 ? "seat" : "seats"})`
         : `RSVP: ${name} can't make it`,
       _template: "table",
       _captcha: "false",
       Name: name,
       Attending: going ? "Joyfully yes" : "Sadly no",
       "Number of guests": going ? String(guests) : "0",
+      "Catered reception": going ? (reception ? "Yes, staying" : "No, church only") : "No",
+      "Catering seats": String(seats),
       Message: message || "(none)",
       "Sent on": new Date().toLocaleString("en-PH", {
         dateStyle: "full",
@@ -60,6 +65,7 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
         name: String(data.get("name") ?? "").trim(),
         attending,
         guests: Number(data.get("guests") ?? 0),
+        reception: data.get("reception") === "yes",
         message: String(data.get("message") ?? "").trim(),
       });
       setStatus("sent");
@@ -135,6 +141,26 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
                 className={fieldClass}
               />
             </div>
+          )}
+
+          {attending === "yes" && (
+            <fieldset>
+              <legend className={labelClass}>Will you stay for the catered reception?</legend>
+              <p className="mt-1 text-xs text-mist">
+                We&apos;re reserving catering seats, so please let us know.
+              </p>
+              {/* Real radios so the browser won't send the form without an answer. */}
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                {(["yes", "no"] as const).map((value) => (
+                  <label key={value} className="cursor-pointer">
+                    <input type="radio" name="reception" value={value} required className="peer sr-only" />
+                    <span className="block rounded-full border border-white/70 bg-white/60 px-4 py-3 text-center text-xs font-semibold uppercase tracking-widest text-mist transition hover:text-navy peer-checked:border-sky peer-checked:bg-sky peer-checked:text-white peer-checked:shadow peer-focus-visible:ring-2 peer-focus-visible:ring-sky">
+                      {value === "yes" ? "Save us seats" : "Church only"}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
           )}
 
           <div>
