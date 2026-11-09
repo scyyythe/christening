@@ -12,6 +12,14 @@ import socks from "../assets/toby/toby-07-socks.webp";
 import bigEyes from "../assets/toby/toby-08-big-eyes.webp";
 import smile from "../assets/toby/toby-09-smile.webp";
 import chubby from "../assets/toby/toby-10-chubby.webp";
+import bibSmile from "../assets/toby/toby-11-bib-smile.webp";
+import shoulderKiss from "../assets/toby/toby-12-shoulder-kiss.webp";
+import heldClose from "../assets/toby/toby-13-held-close.webp";
+import starOnesie from "../assets/toby/toby-14-star-onesie.webp";
+import bigLaugh from "../assets/toby/toby-15-big-laugh.webp";
+import happyGrin from "../assets/toby/toby-16-happy-grin.webp";
+import bearBeanie from "../assets/toby/toby-17-bear-beanie.webp";
+import sleepySmile from "../assets/toby/toby-18-sleepy-smile.webp";
 
 export type GalleryPhoto = {
   src: string;
@@ -32,4 +40,12 @@ export const gallery: GalleryPhoto[] = [
   { src: bigEyes, width: 900, height: 1623, position: "50% 70%" },
   { src: smile, width: 900, height: 1200, position: "50% 32%", caption: "first smile" },
   { src: chubby, width: 900, height: 1200, position: "50% 40%" },
+  { src: bibSmile, width: 900, height: 1600, position: "50% 42%" },
+  { src: shoulderKiss, width: 900, height: 1200, position: "50% 55%" },
+  { src: heldClose, width: 900, height: 1200, position: "50% 40%" },
+  { src: starOnesie, width: 900, height: 1200, position: "50% 30%" },
+  { src: bigLaugh, width: 900, height: 1200, position: "50% 42%" },
+  { src: happyGrin, width: 900, height: 1200, position: "50% 50%" },
+  { src: bearBeanie, width: 900, height: 1200, position: "50% 50%" },
+  { src: sleepySmile, width: 900, height: 1200, position: "50% 45%" },
 ];

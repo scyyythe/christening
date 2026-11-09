@@ -19,6 +19,14 @@ const photos = [
   ["beb17034-e2f9-4dbe-b888-d0f4b1557290.jpg", "toby-08-big-eyes"],
   ["2d4f9b3f-550c-47ac-9e69-d660150cb460.jpg", "toby-09-smile"],
   ["54cfeaba-5892-444b-8ccd-9e96037c8e58.jpg", "toby-10-chubby"],
+  ["toby-11-bib-smile.jpg", "toby-11-bib-smile"],
+  ["toby-12-shoulder-kiss.jpg", "toby-12-shoulder-kiss"],
+  ["toby-13-held-close.jpg", "toby-13-held-close"],
+  ["toby-14-star-onesie.jpg", "toby-14-star-onesie"],
+  ["toby-15-big-laugh.jpg", "toby-15-big-laugh"],
+  ["toby-16-happy-grin.jpg", "toby-16-happy-grin"],
+  ["toby-17-bear-beanie.png", "toby-17-bear-beanie"],
+  ["toby-18-sleepy-smile.png", "toby-18-sleepy-smile"],
 ];
 
 async function buildPhotos() {
