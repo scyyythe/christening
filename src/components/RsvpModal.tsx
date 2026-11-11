@@ -156,8 +156,8 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
                 <button
                   type="button"
                   aria-label="More guests"
-                  onClick={() => setGuests((g) => Math.min(10, g + 1))}
-                  disabled={guests >= 10}
+                  onClick={() => setGuests((g) => Math.min(5, g + 1))}
+                  disabled={guests >= 5}
                   className="h-11 w-11 shrink-0 rounded-full border border-sky/30 bg-white/70 text-xl font-bold text-navy disabled:opacity-40"
                 >
                   +

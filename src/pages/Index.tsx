@@ -71,6 +71,17 @@ function Index() {
 
       <footer className="pb-10 pt-4 text-center text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
         Made with love for Tobias Noah
+        <p className="mx-auto mt-4 max-w-md px-4 text-[0.7rem] font-normal normal-case tracking-normal">
+          Need a website? Get web development services from an industry expert,{" "}
+          <a
+            href="https://portfolio-jil-canete.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-sky underline underline-offset-2 hover:text-navy"
+          >
+            Jil Canete, here →
+          </a>
+        </p>
       </footer>
 
       <Suspense fallback={null}>
