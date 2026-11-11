@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { event } from "../data/event";
 import { cn } from "../lib/utils";
 import { HeartIcon } from "./Icons";
@@ -41,10 +41,49 @@ async function submitRsvp({ name, attending, guests, guestNames, reception, mess
         dateStyle: "full",
         timeStyle: "short",
       }),
+      "Website by": "Jil Canete, web developer: https://portfolio-jil-canete.vercel.app/",
     }),
   });
   const reply = (await res.json().catch(() => null)) as { success?: string } | null;
   if (!res.ok || reply?.success !== "true") throw new Error("RSVP failed");
+}
+
+const sendingMessages = [
+  "Just a moment, sending your RSVP…",
+  "Wrapping it up with a little bow…",
+  "Your RSVP is on its way to Toby's family…",
+  "Almost there, thank you for waiting!",
+];
+
+// Shown over the form while the RSVP is sending, so guests know it's working.
+function SendingOverlay() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % sendingMessages.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-3xl bg-white/85 px-6 text-center backdrop-blur-sm"
+    >
+      <div className="flex gap-2" aria-hidden="true">
+        {[0, 1, 2].map((i) => (
+          <HeartIcon
+            key={i}
+            className="h-7 w-7 animate-bounce text-sky"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+      </div>
+      <p className="mt-4 font-script text-3xl text-navy">Please wait a little bit</p>
+      <p key={index} className="mt-2 animate-pulse text-sm text-mist">
+        {sendingMessages[index]}
+      </p>
+    </div>
+  );
 }
 
 const fieldClass =
@@ -100,7 +139,9 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <div className="relative">
+        {status === "sending" && <SendingOverlay />}
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4" aria-busy={status === "sending"}>
           <div>
             <label htmlFor="rsvp-name" className={labelClass}>
               Your name
@@ -228,6 +269,7 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
             {status === "sending" ? "Sending…" : "Send RSVP"}
           </button>
         </form>
+        </div>
       )}
     </Sheet>
   );
