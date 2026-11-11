@@ -135,17 +135,35 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
               <label htmlFor="rsvp-guests" className={labelClass}>
                 Number of guests
               </label>
-              <input
-                id="rsvp-guests"
-                name="guests"
-                type="number"
-                min={1}
-                max={10}
-                value={guests}
-                onChange={(e) => setGuests(Math.min(10, Math.max(1, Number(e.target.value) || 1)))}
-                required
-                className={fieldClass}
-              />
+              {/* Stepper buttons: typing into a clamped number box made "2" turn into "12" → 10. */}
+              <div className="mt-1 flex items-center gap-3">
+                <button
+                  type="button"
+                  aria-label="Fewer guests"
+                  onClick={() => setGuests((g) => Math.max(1, g - 1))}
+                  disabled={guests <= 1}
+                  className="h-11 w-11 shrink-0 rounded-full border border-sky/30 bg-white/70 text-xl font-bold text-navy disabled:opacity-40"
+                >
+                  −
+                </button>
+                <output
+                  id="rsvp-guests"
+                  aria-live="polite"
+                  className="min-w-[2.5rem] text-center font-display text-2xl font-bold text-navy"
+                >
+                  {guests}
+                </output>
+                <button
+                  type="button"
+                  aria-label="More guests"
+                  onClick={() => setGuests((g) => Math.min(10, g + 1))}
+                  disabled={guests >= 10}
+                  className="h-11 w-11 shrink-0 rounded-full border border-sky/30 bg-white/70 text-xl font-bold text-navy disabled:opacity-40"
+                >
+                  +
+                </button>
+              </div>
+              <input type="hidden" name="guests" value={guests} />
             </div>
           )}
 

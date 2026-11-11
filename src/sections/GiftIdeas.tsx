@@ -5,11 +5,9 @@ import { HeartIcon } from "../components/Icons";
 import { Reveal } from "../components/Reveal";
 import { Section } from "../components/Section";
 import { Sun } from "../components/Sun";
-import { event } from "../data/event";
 import {
   cloudOne,
   cloudTwo,
-  giftBoxes,
   giftClothes,
   giftDiapers,
   giftWipes,
@@ -39,7 +37,7 @@ const gifts = [
   },
   {
     title: "Diapers",
-    detail: "Penbose Medium or EQ Medium",
+    detail: "Size L or XL (Pampers, EQ or any brand)",
     image: giftDiapers,
     alt: "Stacks of baby diapers and a basket with a blue bow",
   },
@@ -50,6 +48,25 @@ const gifts = [
     alt: "Baby onesie, hat, socks and overalls on a clothesline",
   },
 ];
+
+// A simple formula tin drawing for the milk card.
+function MilkTin() {
+  return (
+    <svg viewBox="0 0 120 140" role="img" aria-label="A tin of Bonna infant formula" className="h-full">
+      <ellipse cx="60" cy="130" rx="42" ry="6" fill="#0b2a4a" opacity="0.08" />
+      <rect x="22" y="20" width="76" height="108" rx="10" fill="#ffffff" stroke="#8cc3ea" strokeWidth="3" />
+      <rect x="18" y="12" width="84" height="16" rx="6" fill="#8cc3ea" />
+      <rect x="22" y="48" width="76" height="46" fill="#e6f3fc" />
+      <text x="60" y="70" textAnchor="middle" fontFamily="sans-serif" fontWeight="800" fontSize="17" fill="#1d4f8a">
+        BONNA
+      </text>
+      <text x="60" y="86" textAnchor="middle" fontFamily="sans-serif" fontWeight="600" fontSize="10" fill="#4a7fb5">
+        0–6 months
+      </text>
+      <path d="M48 108 q12 -12 24 0 q-12 12 -24 0z" fill="#8cc3ea" opacity="0.7" />
+    </svg>
+  );
+}
 
 function GiftCard({ title, detail, children }: { title: string; detail: string; children: ReactNode }) {
   return (
@@ -93,21 +110,8 @@ export function GiftIdeas() {
             </Reveal>
           ))}
           <Reveal delay={0.7} className="h-full">
-            <GiftCard title="Monetary gift" detail="Scan to send a gift for Toby's future">
-              {event.giftQrSrc ? (
-                <img
-                  src={event.giftQrSrc}
-                  alt="QR code for sending a monetary gift"
-                  className="aspect-square h-full rounded-xl bg-white object-contain p-2"
-                />
-              ) : (
-                <div className="flex aspect-square h-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-sky/30 bg-white/50 p-3">
-                  <img src={giftBoxes} alt="" aria-hidden="true" className="w-14" />
-                  <span className="text-[0.6rem] font-semibold uppercase tracking-widest text-mist">
-                    QR code coming soon
-                  </span>
-                </div>
-              )}
+            <GiftCard title="Milk" detail="Bonna 0–6 months (infant formula)">
+              <MilkTin />
             </GiftCard>
           </Reveal>
         </div>
