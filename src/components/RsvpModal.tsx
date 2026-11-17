@@ -212,8 +212,7 @@ export function RsvpModal({ onClose }: { onClose: () => void }) {
             <fieldset>
               <legend className={labelClass}>Names of guests</legend>
               <p className="mt-1 text-xs text-mist">
-                Including yourself. We&apos;ll give these names to {event.reception.name} for the
-                seat reservation.
+                Including yourself. We&apos;ll use these names for the seat reservation.
               </p>
               <div>
                 {Array.from({ length: guests }, (_, i) => (

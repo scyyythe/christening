@@ -3,7 +3,9 @@ export const event = {
   date: "NOVEMBER 22",
   // Only used for the calendar file; it isn't shown on the page.
   year: 2026,
-  time: "10:00 AM",
+  // Only the reception time is shown; the christening time is left off on
+  // purpose. Also used as the start time in the calendar file.
+  receptionTime: "11:00 AM",
   // Length of the event in the calendar file.
   durationHours: 3,
   church: {
@@ -16,12 +18,13 @@ export const event = {
     mapsQuery: "",
   },
   reception: {
-    name: "Elyssa Catering Services",
-    address: "563 Tungkop Barangay Rd, Minglanilla, Cebu",
-    // Centre of Barangay Tungkop (approximate) for the in-page map pin.
-    lat: 10.23274,
-    lng: 123.78516,
-    mapsQuery: "Elyssa Catering Services, 563 Tungkop Barangay Rd, Minglanilla, Cebu",
+    name: "Modena Townsquare Clubhouse",
+    address: "Modena Town Square, Tunghaan, Minglanilla, Cebu",
+    // Approximate spot in Tunghaan, off N. Bacalso Highway, for the in-page
+    // map pin. "Open in Google Maps" uses mapsQuery instead.
+    lat: 10.2405,
+    lng: 123.7885,
+    mapsQuery: "Modena Town Square, Tunghaan, Minglanilla, Cebu",
   },
   // QR code for monetary gifts (GCash, bank, etc.), e.g. "/gift-qr.png" in
   // the public folder. Empty shows a "coming soon" placeholder.

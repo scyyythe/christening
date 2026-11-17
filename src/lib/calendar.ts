@@ -23,13 +23,14 @@ type LocalTime = {
   minutes: number;
 };
 
-// Reads "NOVEMBER 22" + "10:00 AM" from the event data. Returns null when
-// they can't be parsed, so calendar buttons can hide themselves.
+// Reads "NOVEMBER 22" + the reception's "11:00 AM" from the event data (the
+// christening time isn't published). Returns null when they can't be parsed,
+// so calendar buttons can hide themselves.
 export function getEventStart(): LocalTime | null {
   const [monthName, dayText] = event.date.trim().toUpperCase().split(/\s+/);
   const month = MONTHS.indexOf(monthName);
   const day = Number(dayText);
-  const time = event.time
+  const time = event.receptionTime
     .trim()
     .toUpperCase()
     .match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/);
@@ -86,10 +87,10 @@ export function downloadCalendarFile(start: LocalTime) {
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`,
     `DTSTART;TZID=Asia/Manila:${formatLocal(start)}`,
     `DTEND;TZID=Asia/Manila:${formatLocal(end)}`,
-    "SUMMARY:Tobias Noah's Christening",
-    `LOCATION:${escapeIcs(`${event.church.name}, ${event.church.address}`)}`,
+    "SUMMARY:Tobias Noah's Christening Reception",
+    `LOCATION:${escapeIcs(`${event.reception.name}, ${event.reception.address}`)}`,
     `DESCRIPTION:${escapeIcs(
-      `Reception to follow at ${event.reception.name}, ${event.reception.address}`,
+      `Christening at ${event.church.name}, ${event.church.address}`,
     )}`,
     "END:VEVENT",
     "END:VCALENDAR",

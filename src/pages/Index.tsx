@@ -15,6 +15,7 @@ import { Hero } from "../sections/Hero";
 import { NameSection } from "../sections/NameSection";
 import { Pictures } from "../sections/Pictures";
 import { Rsvp } from "../sections/Rsvp";
+import { SaveTheDate } from "../sections/SaveTheDate";
 import { SeeYouThere } from "../sections/SeeYouThere";
 
 // Leaflet is heavy; only fetch the map guide when someone opens it.
@@ -57,6 +58,7 @@ function Index() {
         <main>
           <Hero />
           <NameSection />
+          <SaveTheDate />
           <Rsvp onRsvp={openRsvp} onDecline={() => setDeclineOpen(true)} />
           <BearlyWait />
           <Details onOpenMap={setMapTab} />

@@ -183,7 +183,7 @@ function Countdown() {
         ))}
       </ul>
       <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-widest text-mist">
-        until we meet at church
+        until the big day
       </p>
     </div>
   );

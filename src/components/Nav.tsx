@@ -3,7 +3,7 @@ import { cn } from "../lib/utils";
 
 const links = [
   { href: "#home", label: "Home" },
-  { href: "#details", label: "Details" },
+  { href: "#details", label: "Location" },
   { href: "#gifts", label: "Gift Ideas" },
   { href: "#photos", label: "Photos" },
 ];

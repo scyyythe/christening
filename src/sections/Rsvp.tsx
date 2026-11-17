@@ -22,7 +22,7 @@ function Decorations() {
   );
 }
 
-// Sits right after the name so guests answer early: the reception needs a
+// Sits right after the date so guests answer early: the reception needs a
 // headcount for the reservation.
 export function Rsvp({ onRsvp, onDecline }: RsvpProps) {
   return (
@@ -43,6 +43,10 @@ export function Rsvp({ onRsvp, onDecline }: RsvpProps) {
           </h3>
           <p className="mt-2 text-sm text-navy/80">
             The reception is catered and we&apos;re reserving seats, so please fill out the form.
+          </p>
+          <p className="mt-3 rounded-2xl bg-sky/10 px-4 py-2.5 text-xs text-navy/80">
+            <span className="font-semibold text-navy">Friendly note:</span> please bring a fan or
+            mini fan. The venue might get warm and may not be air-conditioned.
           </p>
           <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <button type="button" className="btn-primary" onClick={onRsvp}>

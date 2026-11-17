@@ -5,7 +5,6 @@ import { CalendarIcon, ChurchIcon, ClockIcon, HouseIcon, PinIcon } from "../comp
 import type { Destination } from "../components/MapGuide";
 import { Reveal } from "../components/Reveal";
 import { Section } from "../components/Section";
-import { Sun } from "../components/Sun";
 import { event, type Venue } from "../data/event";
 import { downloadCalendarFile, getEventStart } from "../lib/calendar";
 import { cloudOne, cloudTwo, starFour, starTwo } from "../lib/art";
@@ -20,8 +19,8 @@ type CardProps = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   label: string;
   venue: Venue;
-  // When it starts, shown in a little pill.
-  when: string;
+  // When it starts, shown in a little pill. Omitted for the ceremony.
+  when?: string;
   destination: Destination;
   onOpenMap: (destination: Destination) => void;
   delay: number;
@@ -52,10 +51,12 @@ function VenueCard({ icon: Icon, label, venue, when, destination, onOpenMap, del
         <h3 className="relative mt-5 font-display text-[clamp(2.2rem,4vw,3rem)] font-bold uppercase leading-none tracking-wider text-navy">
           {venue.name}
         </h3>
-        <p className="relative mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-sky/10 px-3 py-1.5 text-xs font-semibold text-ink">
-          <ClockIcon className="h-4 w-4 text-sky" />
-          {when}
-        </p>
+        {when && (
+          <p className="relative mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-sky/10 px-3 py-1.5 text-xs font-semibold text-ink">
+            <ClockIcon className="h-4 w-4 text-sky" />
+            {when}
+          </p>
+        )}
         <p className="relative mt-3 flex items-start gap-2 text-sm text-mist">
           <PinIcon className="mt-0.5 h-4 w-4 shrink-0 text-sky" />
           {venue.address}
@@ -102,25 +103,17 @@ function Decorations() {
 
 export function Details({ onOpenMap }: DetailsProps) {
   return (
-    <Section id="details" label="Event details" tint="deep" decorations={<Decorations />}>
+    <Section id="details" label="Location" tint="deep" decorations={<Decorations />}>
       <div className="text-center">
-        <Reveal className="flex items-start justify-center">
-          <Sun className="w-20 sm:w-24" />
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-widest text-mist">
+            Where to find us
+          </p>
         </Reveal>
         <Reveal delay={0.15}>
-          <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-mist">
-            Please join us
-          </p>
-        </Reveal>
-        <Reveal delay={0.3}>
           <h2 className="mt-2 font-display text-[clamp(2.8rem,6vw,5rem)] font-bold uppercase leading-none tracking-[0.12em] text-navy">
-            {event.day} &bull; {event.date}
+            Location
           </h2>
-        </Reveal>
-        <Reveal delay={0.45}>
-          <p className="mt-2 font-script text-[clamp(2rem,4vw,3rem)] text-sky">
-            mark your calendars, dear ones
-          </p>
         </Reveal>
       </div>
 
@@ -129,7 +122,6 @@ export function Details({ onOpenMap }: DetailsProps) {
           icon={ChurchIcon}
           label="Ceremony"
           venue={event.church}
-          when={`At ${event.time}`}
           destination="church"
           onOpenMap={onOpenMap}
           delay={0.2}
@@ -138,7 +130,7 @@ export function Details({ onOpenMap }: DetailsProps) {
           icon={HouseIcon}
           label="Reception"
           venue={event.reception}
-          when="Right after the ceremony"
+          when={`At ${event.receptionTime}`}
           destination="reception"
           onOpenMap={onOpenMap}
           delay={0.35}
